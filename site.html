@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DHT11 Sensor Dashboard</title>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-database-compat.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+    }
+    .card {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+      text-align: center;
+      margin: 10px;
+      width: 300px;
+    }
+    h2 {
+      margin: 0;
+      color: #333;
+    }
+    p {
+      font-size: 32px;
+      color: #007BFF;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h2>🌡️ Temperature</h2>
+    <p id="temp">-- °C</p>
+  </div>
+
+  <div class="card">
+    <h2>💧 Humidity</h2>
+    <p id="hum">-- %</p>
+  </div>
+
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD-fcO0tloAkj5hNZD1zUW0gYBb2rg5y0U",
+      authDomain: "dht11-e87c0.firebaseapp.com",
+      databaseURL: "https://dht11-e87c0-default-rtdb.firebaseio.com",
+      projectId: "dht11-e87c0",
+      storageBucket: "dht11-e87c0.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+
+    // Reference values
+    const tempRef = database.ref("/house/temperature");
+    const humRef = database.ref("/house/humidity");
+
+    // Update DOM in real-time
+    tempRef.on("value", (snapshot) => {
+      document.getElementById("temp").innerText = snapshot.val() + " °C";
+    });
+
+    humRef.on("value", (snapshot) => {
+      document.getElementById("hum").innerText = snapshot.val() + " %";
+    });
+  </script>
+
+</body>
+</html>
